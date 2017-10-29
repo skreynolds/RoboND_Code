@@ -54,9 +54,24 @@ destination = np.float32([[image.shape[1]/2 - dst_size, image.shape[0] - bottom_
                   [image.shape[1]/2 + dst_size, image.shape[0] - 2*dst_size - bottom_offset], 
                   [image.shape[1]/2 - dst_size, image.shape[0] - 2*dst_size - bottom_offset],
                   ])
-
+# We note that colorsel is the colourthresholded
+# binary image
+# The colourthresholding filter returns a binary image
+# according to a colour which has been detected
+# NOTE: the white represents naviagable terrain
 warped = perspect_transform(image, source, destination)
 colorsel = color_thresh(warped, rgb_thresh=(160,160,160))
 
+# This plot shows the binary image which has undergone
+# a perspective transform, and then undergone colour
+# thresholding
 plt.imshow(colorsel, cmap='gray')
+plt.show()
+
+# This image shows an unsuccesful mapping of the
+# image to rover centric coordinates
+ypos, xpos = colorsel.nonzero()
+plt.plot(xpos, ypos, '.')
+plt.xlim(0,320)
+plt.ylim(0,160)
 plt.show()
