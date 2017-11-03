@@ -54,17 +54,27 @@ def process_image(img):
     #############################################################
     
     # Threshold image for terrain
-    nav = color_thresh(warped, (160, 160, 160))
+    nav = color_thresh(warped, (165, 165, 165))
     
-    # Threshold image for obstacles
-    obstacles = nav.copy()
-    obstacles ^= 1
+    # Cone derivation
+    nav_thresh = color_thresh(img, (165, 165, 165))
+    obstacles_thresh = nav_thresh.copy()
+    obstacles_thresh ^= 1
+    cone = perspect_transform(obstacles_thresh, source, destination)
+    cone ^= 1
     
     # Threshold image for gold rocks
     hsv_warped = cv2.cvtColor(warped, cv2.COLOR_RGB2HSV)
     lower_thres = np.array([0,100,110])
-    upper_thres = np.array([0,255,255])
-    rock = cv2.inRange(hsv_warped, lower_thres, upper_thres)
+    upper_thres = np.array([70,255,255])
+    rock = cv2.inRange(hsv_warped, lower_thres, upper_thres).astype(bool).astype(int)
+    plt.imshow(rock, cmap='gray')
+    plt.show()
+    
+    # Threshold image for obstacles
+    obstacles = color_thresh(warped, (135, 135, 135))
+    obstacles ^= 1
+    obstacles = obstacles - cone - rock
     
     #############################################################
     # 4) Convert thresholded image pixel values to rover-centric coords
@@ -108,7 +118,7 @@ def process_image(img):
     #############################################################
     
     data.worldmap[obstacle_y_world, obstacle_x_world, 0] += 10 
-    data.worldmap[rock_y_world, rock_x_world, 1] = 255
+    data.worldmap[rock_y_world, rock_x_world, 1] += 10
     data.worldmap[nav_y_world, nav_x_world, 2] += 10
     
     #############################################################
@@ -121,20 +131,15 @@ def process_image(img):
     output_image[0:img.shape[0], 0:img.shape[1]] = img
 
         # Let's create more images to add to the mosaic, first a warped image
-    warped = perspect_transform(img, source, destination)
     plt.imshow(warped)
     plt.show()
         # Add the warped image in the upper right hand corner
     output_image[0:img.shape[0], img.shape[1]:] = warped
         
         # Add an image which shows the thresholded perspective transform
-    nav_ter = color_thresh(img, (160,160,160))
-    obs_ter = nav_ter.copy()
-    nav_ter = perspect_transform(nav_ter, source, destination)
-    obs_ter ^= 1
-    obs_ter = perspect_transform(obs_ter, source, destination)
-    output_image[image.shape[0]:(image.shape[0]+160), image.shape[1]:, 2] = nav_ter
-    output_image[image.shape[0]:(image.shape[0]+160), image.shape[1]:, 0] = obs_ter
+    output_image[image.shape[0]:(image.shape[0]+160), image.shape[1]:, 2] = nav
+    output_image[image.shape[0]:(image.shape[0]+160), image.shape[1]:, 0] = obstacles
+    output_image[image.shape[0]:(image.shape[0]+160), image.shape[1]:, 1] = rock
     
         # Overlay worldmap with ground truth map
     map_add = cv2.addWeighted(data.worldmap, 1, data.ground_truth, 0.5, 0)
@@ -147,12 +152,12 @@ def process_image(img):
     if data.count < len(data.images) - 1:
         data.count += 1 # Keep track of the index in the Databucket()
     
-    return output_image
+    return nav, obstacles, rock, output_image
 
 
 if __name__ == '__main__':
     
-    file_path = 'test_1.jpg'
+    file_path = 'example_rock1.jpg'
     
     image = mpimg.imread(file_path)
     plt.imshow(image)
@@ -169,7 +174,7 @@ if __name__ == '__main__':
     
     data = Databucket()
     
-    output = process_image(image)
+    na, obstacles, rock, output = process_image(image)
     plt.imshow(output)
     plt.show()
     
