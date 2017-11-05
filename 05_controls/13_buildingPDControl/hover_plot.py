@@ -90,7 +90,7 @@ ax3.set_ylabel('Control Effort')
 h, l = ax3.get_legend_handles_labels()
 ax3.legend(h, l)
 plt.tight_layout()
-#plt.show()
+plt.show()
 ##################
 y0 = soln[:,0] #altitude
 rise_time_index =  np.argmax(y0>r)
