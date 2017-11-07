@@ -112,6 +112,8 @@ class PIDController:
         ########################################
         d = ( self.kd_ * ( (self.alpha) * (delta_error / delta_time) ) 
             + (1 - self.alpha) * (self.u_d[-1]) )
+        # This implementation is the one from the solution - but doesn't seem correct to me
+        #d = self.kd_ * (self.alpha * delta_error / delta_time + (1 - self.alpha)  * self.last_error_)
         ########################################
         
         # Set the control effort
