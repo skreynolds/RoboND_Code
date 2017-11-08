@@ -27,9 +27,11 @@ def error(y, y_hat):
 # The second list should contain the gradient (partial derivatives) with respect to w2
 # The third list should contain the gradient (partial derivatives) with respect to b
 def dErrors(X, y, y_hat):
-    DErrorsDx1 = # Fill in
-    DErrorsDx2 = # Fill in
-    DErrorsDb = # Fill in
+    scalar_vect = (y - y_hat) 
+    DErrorsDx1 = -np.sum(scalar_vect*X[:,0])
+    DErrorsDx2 = -np.sum(scalar_vect*X[:,1])
+    DErrorsDb = -np.sum(scalar_vect*np.ones(len(X)))
+    
     return DErrorsDx1, DErrorsDx2, DErrorsDb
 
 # TODO: Fill in the code below to implement the gradient descent step.
@@ -40,10 +42,20 @@ def dErrors(X, y, y_hat):
 # The error e will be calculated and returned for you, for plotting purposes.
 def gradientDescentStep(X, y, W, b, learn_rate = 0.01):
     # TODO: Calculate the prediction
+    y_hat = prediction(X, W, b).reshape(len(X),)
+    
     # TODO: Calculate the gradient
+    DErrorsDx1, DErrorsDx2, DErrorsDb = dErrors(X, y, y_hat)
+    
     # TODO: Update the weights
+    m = len(X)
+    W[0] = W[0] - learn_rate*DErrorsDx1
+    W[1] = W[1] - learn_rate*DErrorsDx2
+    b = b - learn_rate*DErrorsDb # this could be sped up since the average is a constant value is a single value
+    
     # This calculates the error
     e = error(y, y_hat)
+    
     return W, b, e
 
 # This function runs the perceptron algorithm repeatedly on the dataset,
