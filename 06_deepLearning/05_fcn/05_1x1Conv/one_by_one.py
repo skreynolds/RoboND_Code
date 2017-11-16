@@ -1,5 +1,5 @@
 import numpy as np
-import oldtensorflow as tf
+import tensorflow as tf
 
 
 # custom init with the seed set to 0 by default
@@ -10,8 +10,9 @@ def custom_init(shape, dtype=tf.float32, partition_info=None, seed=0):
 # TODO: Use `tf.layers.conv2d` to reproduce the result of `tf.layers.dense`.
 # Set the `kernel_size` and `stride`.
 def conv_1x1(x, num_outputs):
-    kernel_size = 0
-    stride = 0
+    # the kernal size is the depth of the filter which for a 1x1 is the same as the input
+    kernel_size = x.get_shape().as_list()[3]
+    stride = 1
     return tf.layers.conv2d(x, num_outputs, kernel_size, stride, weights_initializer=custom_init)
 
 
@@ -19,7 +20,7 @@ num_outputs = 2
 x = tf.constant(np.random.randn(1, 2, 2, 1), dtype=tf.float32)
 # `tf.layers.dense` flattens the input tensor if the rank > 2 and reshapes it back to the original rank
 # as the output.
-dense_out = tf.layers.dense(x, num_outputs, weights_initializer=custom_init)
+#dense_out = tf.layers.dense(x, num_outputs, weights_initializer=custom_init)
 conv_out = conv_1x1(x, num_outputs)
 
     
