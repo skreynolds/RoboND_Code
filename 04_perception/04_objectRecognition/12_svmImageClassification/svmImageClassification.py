@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # -*- coding: utf-8 -*-
 """
 Created on Fri Nov  3 10:32:14 2017
@@ -16,8 +18,8 @@ from sklearn.preprocessing import StandardScaler
 # NOTE: the next import is only valid 
 # for scikit-learn version <= 0.17
 # if you are using scikit-learn >= 0.18 then use this:
-# from sklearn.model_selection import train_test_split
 from sklearn.model_selection import train_test_split
+#from sklearn.model_selection import train_test_split
 
 # Define a function to compute color histogram features  
 def color_hist(img, nbins=32, bins_range=(0, 256)):
