@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Read in and plot the image
-image = mpimg.imread('can_image.jpg')
+image = mpimg.imread('can_image.JPG')
 plt.imshow(image)
 
 # Note that jpeg is the formate that yields the 
