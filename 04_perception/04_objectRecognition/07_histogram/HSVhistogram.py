@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
 # Read in an image
-image = mpimg.imread('can_image.jpg')
+image = mpimg.imread('can_image.JPG')
 # Your other options for input images are:
     # hammer.jpeg
     # beer.jpeg
