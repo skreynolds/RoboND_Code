@@ -1,0 +1,5 @@
+# Programming Exercises for Udacity RoboND
+
+As part of the Udacity Robotics ND there are a series of exercises designed to help build knowledge and understanding. These exercises are typically offered directly after a concept has been presented to the student. This type of _interpolated testing_ has well documented benefits and is widely adopted in many eLearning platforms. The exercises themselves are made up of Python and C++ code. The formats range from simple code written in a text editor, to software designed to be run with ROS, and there are a smattering of Jupyter notebooks too.
+
+The main reason for this repository is not for replication by others, but as a reference for myself - the documentation presented in the code comments will go some way to helping future implementations of these concepts.
