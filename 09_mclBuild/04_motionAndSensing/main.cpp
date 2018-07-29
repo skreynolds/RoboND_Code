@@ -234,15 +234,13 @@ int main()
 	my_robot.set(30.0, 50.0, M_PI/2.0);
 
     // TODO: Turn clockwise by PI/2 and move by 15 meters
-	Robot res = my_robot.move(-M_PI/2.0,15.0);
-	my_robot.set(res.x, res.y, res.orient);
+	my_robot.move(-M_PI/2.0,15.0);
 
     // TODO: Print the distance from the robot toward the eight landmarks
 	cout << my_robot.read_sensors() << endl;
 
     // TODO: Turn clockwise by PI/2 and move by 10 meters
-	res = my_robot.move(-M_PI/2.0,10.0);
-	my_robot.set(res.x, res.y, res.orient);
+	my_robot.move(-M_PI/2.0,10.0);
 
     // TODO: Print the distance from the robot toward the eight landmarks
 	cout << my_robot.read_sensors() << endl;

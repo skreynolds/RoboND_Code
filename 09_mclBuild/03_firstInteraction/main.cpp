@@ -239,8 +239,7 @@ int main()
 
     // TODO: Rotate the robot by PI/2.0 and then move him forward by 10.0
     // Use M_PI for the pi value
-    Robot update = myrobot.move(M_PI/2.0, 10.0);
-    myrobot.set(update.x, update.y, update.orient);
+    myrobot.move(M_PI/2.0, 10.0);
 
     // TODO: Print out the new robot position and orientation
     cout << myrobot.show_pose() << endl;
