@@ -13,26 +13,32 @@ tuple<MatrixXf, MatrixXf> kalman_filter(MatrixXf x, MatrixXf P, MatrixXf u, Matr
 {
     for (int n = 0; n < sizeof(measurements) / sizeof(measurements[0]); n++) {
         //****** TODO: Kalman-filter function********//
-        x = F*x;
-        P = F*P*Eigen::Transpose
+
         // Measurement Update
         // Code the Measurement Update
         // Initialize and Compute Z, y, S, K, x, and P
 
+        // Initialise an compute measurement
+        MatrixXf Z(1,1);
+        Z << measurements[n];
 
+        // Initialise and compute measurement residual
+        MatrixXf y = Z - H*x;
 
+        // Evaluate S
+        MatrixXf S = H*P*H.transpose() + R;
 
-
-
-
+        // Evaluate Kalman Gain
+        MatrixXf K = P*H.transpose()*S.inverse();
 
         // Prediction
         // Code the Prediction
         // Compute x and P
+        x = x + K*y;
+        P = (I - K*H)*P;
 
-
-
-
+        x = F*x +u;
+        P = F*P*F.transpose();
 
     }
 
