@@ -68,7 +68,7 @@ public:
         vector<double> z(sizeof(landmarks) / sizeof(landmarks[0]));
         double dist;
 
-        for (int i = 0; i < sizeof(landmarks) / sizeof(landmarks[0]); i++) {
+        for (unsigned int i = 0; i < sizeof(landmarks) / sizeof(landmarks[0]); i++) {
             dist = sqrt(pow((x - landmarks[i][0]), 2) + pow((y - landmarks[i][1]), 2));
             dist += gen_gauss_random(0.0, sense_noise);
             z[i] = dist;
@@ -113,7 +113,7 @@ public:
         // Returns all the distances from the robot toward the landmarks
         vector<double> z = sense();
         string readings = "[";
-        for (int i = 0; i < z.size(); i++) {
+        for (unsigned int i = 0; i < z.size(); i++) {
             readings += to_string(z[i]) + " ";
         }
         readings[readings.size() - 1] = ']';
@@ -127,7 +127,7 @@ public:
         double prob = 1.0;
         double dist;
 
-        for (int i = 0; i < sizeof(landmarks) / sizeof(landmarks[0]); i++) {
+        for (unsigned int i = 0; i < sizeof(landmarks) / sizeof(landmarks[0]); i++) {
             dist = sqrt(pow((x - landmarks[i][0]), 2) + pow((y - landmarks[i][1]), 2));
             prob *= gaussian(dist, sense_noise, measurement[i]);
         }
